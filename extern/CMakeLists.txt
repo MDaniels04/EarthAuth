@@ -5,4 +5,7 @@ cmake_minimum_required(VERSION 4.3)
 set(CMAKE_CXX_STANDARD 20)
 
 #Add PerlinNoise to the subdirectories list, make a library
-add_subdirectory(PerlinNoise)
+
+project (PerlinNoiseLib)
+add_Library(PerlinNoiseLib INTERFACE)
+target_include_directories(PerlinNoiseLib INTERFACE PerlinNoise.)
