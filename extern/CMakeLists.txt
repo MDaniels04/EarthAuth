@@ -1,7 +1,5 @@
 
-#Do we need to define a library like this?
-cmake_minimum_required(VERSION 4.3)
-
+cmake_minimum_required(VERSION 3.3...4.3)
 set(CMAKE_CXX_STANDARD 20)
 
 #Add PerlinNoise to the subdirectories list, make a library

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 4.3)
+cmake_minimum_required(VERSION 3.3...4.3) #Fun fact: CMAKE 3.3 came out in 2015 - and this is the version on the uni PCS :')
 project(EarthAuth
         DESCRIPTION "Honours Project"
         LANGUAGES CXX)
