@@ -3,3 +3,6 @@
 out
 build
 cmake-build-debug
+
+#CLion seems to shit out strange .log files... for now this is here to circumvent that
+.log

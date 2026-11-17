@@ -1,13 +1,20 @@
 #include <iostream>
 #include <PerlinNoise.hpp>
+#include <memory>
+
+#include "EarthAuth/WindowManager/WindowManager.h"
 
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
 int main()
 {
+    //Initialise a window manager
+    WindowManager WM = WindowManager();
+
+
     // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
     //Perlis noise example thing...
-    const siv::PerlinNoise::seed_type seed = 123456u;
+    const siv::PerlinNoise::seed_type seed = 123456u; //TODO swap this out for time
     const siv::PerlinNoise perlin{ seed };
 
     for (int y = 0; y < 5; ++y)
