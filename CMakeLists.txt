@@ -7,6 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED On)
 
 #Adds our external libraries stuff...
+find_package(Doxygen)
+if(Doxygen_FOUND)
+    add_subdirectory(docs)
+    
 
 add_subdirectory(apps)
 add_subdirectory(extern)
