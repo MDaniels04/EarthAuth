@@ -3,6 +3,7 @@
 //
 
 #include "EarthAuth/WindowManager/WindowManager.h"
+#include <GLFW/glfw3.h>
 
 
 WindowManager::WindowManager()

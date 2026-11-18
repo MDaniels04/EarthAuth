@@ -12,3 +12,5 @@ target_include_directories(PerlinNoiseLib INTERFACE PerlinNoise.)
 #We just need to add subdirectory for these libraries, however...
 add_subdirectory(glfw)
 #add_subdirectory(imgui) imgui DOESNT have a cmake lists??
+
+add_subdirectory(glad)

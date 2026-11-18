@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include <pch.h>
+
+/*forward declaration of GLFWs window type*/
+class GLFWwindow;
 
 /*
 * Our window manager class handles the instantiation of the window, window events, and inputs in a platform abbstracted manner.
@@ -20,10 +24,6 @@ public:
     WindowManager();
     /*Def destructor*/
     ~WindowManager();
-
-
-
-    
 };
 
 

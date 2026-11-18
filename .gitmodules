@@ -10,3 +10,6 @@
 [submodule "extern/doxygen"]
 	path = extern/doxygen
 	url = https://github.com/doxygen/doxygen.git
+[submodule "extern/glad"]
+	path = extern/glad
+	url = https://github.com/Dav1dde/glad.git
