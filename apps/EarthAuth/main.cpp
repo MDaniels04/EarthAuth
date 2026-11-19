@@ -32,4 +32,18 @@ int main()
 
         std::cout << '\n';
     }
+
+    bool bMainLoop = true;
+
+    //TODO PORT ALL OF THIS STUFF TO A GAME MANAGER
+    while (bMainLoop)
+    {
+        const int WinUpdateOutput = WindowManager->UpdateMainWindow();
+
+        //i.e.: if something was out of the ordinary
+        if (WinUpdateOutput != 0)
+        {
+            std::cout << "EA: Window update exited with code: " << WinUpdateOutput << '\n';
+        }
+    }
 }
