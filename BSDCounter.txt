@@ -1,0 +1,4 @@
+My laptop is on deaths door. Here I keep a counter of the number of times it has Blue-Screen-Of-Deathed  while working on this project
+(with just the IDE open (cheers CLion))
+
+TIMES CRASHED: 1

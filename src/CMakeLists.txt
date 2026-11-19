@@ -9,13 +9,12 @@ set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/EarthAuth/") #IMPORTANT THIS IS T
                 #Is project source dir ok to use here?
 
 #TODO Have some way to get the source files we require automatically, rather than this manual method...
-file(GLOB_RECURSE EarthAuthLibSources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/")
+file(GLOB_RECURSE EarthAuthLibSources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 #Define the library that will be used in our application
 add_library(EarthAuthLib STATIC  ${EarthAuthLibSources} ${HEADER_LIST})
 
 target_compile_features(EarthAuthLib PUBLIC cxx_std_20)
-
 
 set_target_properties(EarthAuthLib PROPERTIES LINKER_LANGUAGE CXX) #Idiot proof, explicitly tell the linker "C++!"
 
@@ -25,6 +24,9 @@ target_include_directories(EarthAuthLib PUBLIC ../include)
 #setup our pch to actually pc
 target_precompile_headers(EarthAuthLib PRIVATE "${PROJECT_SOURCE_DIR}/include/pch.h")
 
+target_link_libraries(EarthAuthLib PUBLIC
+        glad
+        glfw)
 
 #visual studio organising helper
 source_group(

@@ -9,8 +9,13 @@ add_Library(PerlinNoiseLib INTERFACE)
 target_include_directories(PerlinNoiseLib INTERFACE PerlinNoise.)
 
 
+#TODO this is a working soloution, might be better to find packages and link those rather than just subidercting
+
 #We just need to add subdirectory for these libraries, however...
 add_subdirectory(glfw)
 #add_subdirectory(imgui) imgui DOESNT have a cmake lists??
 
+#glad works in tandem with glfw to help load open GL (Or Vulkan)
 add_subdirectory(glad)
+
+add_subdirectory(glm) #gl maths

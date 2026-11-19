@@ -1,5 +1,10 @@
-#Code from:
-#https://github.com/Dav1dde/glad/wiki/C
+#TODO Revisit this
+#Workaround CMAKELists to get GLAD up and running
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/glad/include)
-file(GLOB BUTTERFLIES_SOURCES_C ${CMAKE_CURRENT_SOURCE_DIR} *.c glad/src/gl.c)
+
+cmake_minimum_required(VERSION 3.3...4.3)
+project(glad)
+
+add_library(glad)   #TODO Vulkan file is here but not currently being built with cmake
+target_sources(glad PRIVATE "src/gl.c")
+target_include_directories(glad PUBLIC "include/")

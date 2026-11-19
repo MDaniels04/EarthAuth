@@ -1,14 +1,20 @@
-#include <iostream>
+#include <pch.h>
+
 #include <PerlinNoise.hpp>
 
+#include "EarthAuth/WindowManager/WindowManager_GLFW.h"
 
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 
+using namespace EarthAuth;
+
 int main()
 {
-    //Initialise a window manager
-    WindowManager WM = WindowManager();
+    std::unique_ptr<WindowManager_GLFW> WindowManager = std::make_unique<WindowManager_GLFW>(480,480, "Earth Auth");
 
+
+    if (!WindowManager.get()->InitialiseMainWindow())
+        std::cout << "Damn\n";
 
     // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
     //Perlis noise example thing...
