@@ -44,6 +44,7 @@ int main()
         if (WinUpdateOutput != 0)
         {
             std::cout << "EA: Window update exited with code: " << WinUpdateOutput << '\n';
+            bMainLoop = false;
         }
     }
 }

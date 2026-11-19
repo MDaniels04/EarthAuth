@@ -5,8 +5,5 @@ TODO this readme needs work.
 
 
 
-
-GLAD Library
-https://github.com/Dav1dde/glad
 GLAD Loader Generator
 https://stackoverflow.com/questions/1260748/how-do-i-remove-a-submodule

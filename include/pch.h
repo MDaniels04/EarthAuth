@@ -10,11 +10,15 @@
 
 #pragma once
 
+#include "EarthAuth/Utils.h"
+
+
 #include <iostream>
 #include <cstdlib>
 #include <memory>
 #include <string>
 #include <vector>
+
 
 
 #endif //EARTHAUTH_PCH_H

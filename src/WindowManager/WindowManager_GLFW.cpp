@@ -27,6 +27,7 @@ namespace EarthAuth {
     WindowManager_GLFW::WindowManager_GLFW(unsigned int MainWindowWidth, unsigned int MainWindowHeight, const char* MainWindowTitle)
     : WindowManager_Base::WindowManager_Base(MainWindowWidth, MainWindowHeight, MainWindowTitle)
     {
+        Utils::Debug::PrintDebugText("Hello World!", Utils::EDebugMessageType::EDMT_Error);
         //Error callback setup
         glfwSetErrorCallback(ErrorCallback);
     }
