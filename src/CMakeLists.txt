@@ -26,7 +26,8 @@ target_precompile_headers(EarthAuthLib PRIVATE "${PROJECT_SOURCE_DIR}/include/pc
 
 target_link_libraries(EarthAuthLib PUBLIC
         glad
-        glfw)
+        glfw
+        glm)
 
 #visual studio organising helper
 source_group(

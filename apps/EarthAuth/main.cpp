@@ -43,8 +43,10 @@ int main()
         //i.e.: if something was out of the ordinary
         if (WinUpdateOutput != 0)
         {
-            std::cout << "EA: Window update exited with code: " << WinUpdateOutput << '\n';
+            Utils::Debug::PrintDebugText("Window exited with code: " + WinUpdateOutput, Utils::EDMT_Info);
             bMainLoop = false;
         }
     }
+
+
 }

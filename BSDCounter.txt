@@ -5,4 +5,8 @@ TIMES CRASHED: 1
 
 Furthermore, as it has happened a couple times here are the times just the IDE hard crashed, and the OS held on
 
-TIMES IDE CRASHED: 3
+TIMES IDE CRASHED: 5
+
+"A critical error has occured (you can keep using CLion though :p)" counter:
+
+1

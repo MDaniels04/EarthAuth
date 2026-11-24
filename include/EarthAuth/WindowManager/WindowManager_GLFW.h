@@ -26,7 +26,7 @@ namespace EarthAuth {
     /*Thank you to this stack overflow bit for the fix https://stackoverflow.com/questions/35793672/use-unique-ptr-with-glfwwindow*/
     struct GLFWwindow_DEL
     {
-        void operator()(GLFWwindow* win);
+        void operator() (GLFWwindow* win);
     };
 
     /*
@@ -41,7 +41,7 @@ namespace EarthAuth {
         WindowManager_GLFW();
 
         /*Constructor, initialise values as the base constructor, and set the glfw error callback up*/
-        WindowManager_GLFW(unsigned int width, unsigned int height, const char* title);
+        WindowManager_GLFW(const unsigned int width, const unsigned int height, const char* title);
 
         /*Default destructor*/
         ~WindowManager_GLFW();

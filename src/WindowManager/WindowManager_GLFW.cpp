@@ -24,10 +24,9 @@ namespace EarthAuth {
         glfwTerminate();
     }
 
-    WindowManager_GLFW::WindowManager_GLFW(unsigned int MainWindowWidth, unsigned int MainWindowHeight, const char* MainWindowTitle)
+    WindowManager_GLFW::WindowManager_GLFW(const unsigned int MainWindowWidth, const unsigned int MainWindowHeight, const char* MainWindowTitle)
     : WindowManager_Base::WindowManager_Base(MainWindowWidth, MainWindowHeight, MainWindowTitle)
     {
-        Utils::Debug::PrintDebugText("Hello World!", Utils::EDebugMessageType::EDMT_Error);
         //Error callback setup
         glfwSetErrorCallback(ErrorCallback);
     }
@@ -37,7 +36,7 @@ namespace EarthAuth {
         //Initialise glfw, returning if we are unable to do so
         if (!glfwInit())
         {
-            //TODO Debug messaging functionality in utils would be handy
+            Utils::Debug::PrintDebugText("GLFW Could not be initialised", Utils::EDMT_Error);
             glfwTerminate();
             return false;
         }
@@ -63,8 +62,17 @@ namespace EarthAuth {
         std::cout << "m_MainWindow is not null, loading...\n";
 
         glfwMakeContextCurrent(m_MainWindow.get());
-        gladLoadGL(glfwGetProcAddress);
+        const int GladVersion = gladLoadGL(glfwGetProcAddress);
+        if (GladVersion == 0)
+        {
+            Utils::Debug::PrintDebugText("Error: GLAD initialised incorrectly", Utils::EDMT_Error);
+            return false;
+        }
 
+        //TODO If Debug precomp stuff could be set out here
+        //TODO our current utils cant handle the const char* return of this...
+        std::printf("Renderer: %s\n", glGetString(GladVersion)); //So this one seems to be printing null...
+        printf( "OpenGL version supported %s.\n", glGetString( GL_VERSION ) );
 
         return true;
     }
@@ -74,6 +82,7 @@ namespace EarthAuth {
         if (glfwWindowShouldClose(m_MainWindow.get()))
         {
             glfwDestroyWindow(m_MainWindow.get());
+            glfwTerminate(); //TODO is this wise to do here?
             return 1;
         }
 
@@ -87,8 +96,7 @@ namespace EarthAuth {
 
     auto WindowManager_GLFW::ErrorCallback(int Err, const char* Desc)-> void
     {
-        //TODO that utils library with some debug printing functionality would help a lot here...
-        std::cout << "Window Error: GLFW \nError Code: " << std::to_string(Err) << "\nDescription: " << Desc << "\n";
+        Utils::Debug::PrintDebugText("GLFW code: " + std::to_string(Err) + " description: " + Desc + "\n");
     }
 
 }

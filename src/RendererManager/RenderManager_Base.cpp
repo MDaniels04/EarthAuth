@@ -1,0 +1,1 @@
+#include "EarthAuth/Renderer/RenderManager_Base.h"
