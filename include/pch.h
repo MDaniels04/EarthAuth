@@ -19,7 +19,10 @@
 #include <string>
 #include <vector>
 #include <stdio.h>
-
+#include <fstream>
+#include <sstream>
+#include <map>
+#include <unordered_map>
 
 
 #endif //EARTHAUTH_PCH_H
