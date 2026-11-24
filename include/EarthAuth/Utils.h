@@ -10,7 +10,7 @@
 #include <string>
 #include <cstdio>
 
-namespace EarthAuth
+namespace LabRat
 {
 
     /*Utils namespace including a number of helper functions and classes, including our own little debug library*/

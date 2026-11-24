@@ -1,6 +1,6 @@
 #include "EarthAuth/WindowManager/WindowManager_Base.h"
 
-namespace EarthAuth
+namespace LabRat
 {
     WindowManager_Base::WindowManager_Base() : m_MainWindowWidth(0), m_MainWindowHeight(0), m_MainWindowTitle("Window")
     {

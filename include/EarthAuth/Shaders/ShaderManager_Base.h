@@ -3,7 +3,7 @@
 
 #pragma once
 
-namespace EarthAuth {
+namespace LabRat {
     /*Shader Managers are our classes responsible for loading and communicating with shaders*/
     class ShaderManager_Base
     {

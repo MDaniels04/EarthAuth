@@ -19,7 +19,7 @@ struct GLFWwindow;
 struct GLFWmonitor;
 
 /*Window manager part of earth auth namespace*/
-namespace EarthAuth {
+namespace LabRat {
 
 
     /*Forward decl of helper structs; deleters for GLFW objects for the unique ptr member vars*/

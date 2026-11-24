@@ -12,7 +12,7 @@
 
 #include <glad/gl.h> //We cannot forward reference enum types, so this has been included here...
 
-namespace EarthAuth {
+namespace LabRat {
 
     /*GLSL specific implementation of our shader manager*/
     class ShaderManager_GL : public ShaderManager_Base

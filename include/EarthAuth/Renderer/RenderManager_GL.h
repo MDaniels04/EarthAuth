@@ -8,7 +8,7 @@
 
 #include "EarthAuth/Renderer/RenderManager_Base.h"
 
-namespace EarthAuth {
+namespace LabRat {
 
     /*Forward decl of shader manager class*/
     class ShaderManager_GL;

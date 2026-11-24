@@ -5,7 +5,7 @@
 
 
 
-namespace EarthAuth
+namespace LabRat
 {
     /*
      * Abstract class which specific library implementations will derrive from, allowing us to not be hard wired to one lib, and can make later implementations

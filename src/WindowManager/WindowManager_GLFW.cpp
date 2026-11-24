@@ -4,7 +4,8 @@
 #include <glad/gl.h> //GLAD
 #include <GLFW/glfw3.h> //GLFW
 
-namespace EarthAuth {
+namespace LabRat
+{
 
     //Actual definition of the deleter - ensure we are using GLFWs window deletion func
     void GLFWwindow_DEL::operator() (GLFWwindow* win)

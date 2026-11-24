@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD 20)
 set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/EarthAuth/") #IMPORTANT THIS IS THE ROOT SRC DIR
                 #Is project source dir ok to use here?
 
-#TODO Have some way to get the source files we require automatically, rather than this manual method...
 file(GLOB_RECURSE EarthAuthLibSources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 #Define the library that will be used in our application

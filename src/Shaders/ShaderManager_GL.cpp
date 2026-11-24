@@ -1,7 +1,7 @@
 #include "EarthAuth/Shaders/ShaderManager_GL.h"
 
 
-namespace EarthAuth
+namespace LabRat
 {
 
     ShaderManager_GL::ShaderManager_GL()

@@ -4,7 +4,7 @@
 #include "glad/gl.h"
 #include "EarthAuth/Shaders/ShaderManager_GL.h"
 
-namespace EarthAuth
+namespace LabRat
 {
 
     RenderManager_GL::RenderManager_GL() : m_ShaderManager(nullptr)
@@ -26,6 +26,7 @@ namespace EarthAuth
         m_ShaderManager->InitShader("GLSL/BlockFSH.frag", GL_FRAGMENT_SHADER);
 
 
+        m_ShaderManager->LinkShaderProgram();
         //glUseProgram(ShaderProgram);
 
     }
