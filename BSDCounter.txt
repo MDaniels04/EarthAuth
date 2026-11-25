@@ -9,7 +9,7 @@ TIMES IDE CRASHED: 5
 
 "A critical error has occured (you can keep using CLion though :p)" counter:
 
-4
+6
 
 Daily highscore for this is:  24/11/2026 with 4 appearances.
 

@@ -3,23 +3,22 @@
 #include "EarthAuth/WindowManager/WindowManager_Base.h"
 #include "EarthAuth/WindowManager/WindowManager_GLFW.h"
 
-namespace LabRat
-{
+namespace LabRat {
     //Initialilse window manager to null if nothing passed along
-    Application::Application() : m_WindowManager(nullptr)
+    Application::Application() : m_WindowManager(nullptr), m_bShouldUpdate(false)
     {
     }
 
-    Application::Application(ERenderingLibrary RenderingLibrary)
+    Application::Application(ERenderingLibrary RenderingLibrary) : m_bShouldUpdate(false)
     {
         switch (RenderingLibrary)
         {
             //Window manager of type GLFW, render manager of type Open GL
             case ERenderingLibrary::ERL_OpenGL:
-                m_WindowManager = std::unique_ptr<WindowManager_GLFW>();
+                m_WindowManager = std::make_unique<WindowManager_GLFW>(480, 480, "Window");
                 break;
             default:
-                m_WindowManager = std::unique_ptr<WindowManager_GLFW>(new WindowManager_GLFW());
+                m_WindowManager = std::make_unique<WindowManager_GLFW>(480, 480, "Window");
                 break;
         }
 
@@ -45,8 +44,24 @@ namespace LabRat
         return m_bShouldUpdate;
     }
 
+    //NOTE TO ANY PROSPECTIVE APPLICATION PROGRAMMERS (if I make this a fully fleged engine one day) Get Should Update is a check that
+    //should be ran in ur main.cpp
+    auto Application::UpdateApplication() -> const int
+    {
 
-    auto Application::InitialiseApplication() -> const bool
+        if (m_WindowManager.get()->GetShouldWindowUpdate())
+        {
+            m_WindowManager->UpdateMainWindow();
+            return 0; //Return 0 - all good, no problems
+        }
+
+        //Stop updating!
+        m_bShouldUpdate = false;
+        return 1; //1 - ended (normal - will later expand this to denote errors)
+
+    }
+
+    auto Application::InitialiseApplication(const unsigned int WindowWidth, const unsigned int WindowHeight, const char* WindowName) -> const bool
     {
 
         if (!m_WindowManager.get())
@@ -55,6 +70,10 @@ namespace LabRat
         }
 
         m_WindowManager->InitialiseMainWindow();
+
+
+        //At the end of initialise, if we get to this point it is all systems go, we mark the app as being able to update now
+        m_bShouldUpdate = true;
 
         return true;
     }

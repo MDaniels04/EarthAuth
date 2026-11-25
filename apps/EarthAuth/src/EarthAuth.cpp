@@ -2,11 +2,11 @@
 // Created by Morga on 24/11/2026.
 //
 
-//#include
+#include "EarthAuth.h"
 
 using namespace LabRat;
 
-EarthAuth::EarthAuth(ERenderingLibrary GivenLib = ERenderingLibrary::ERL_OpenGL) : Application::Application(GivenLib)
+EarthAuth::EarthAuth(ERenderingLibrary GivenLib) : Application::Application(GivenLib)
 {
-
+    Utils::Debug::PrintDebugText("Our app being built correctly", Utils::EDebugMessageType::EDMT_Info);
 }

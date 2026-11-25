@@ -84,6 +84,7 @@ namespace LabRat
         {
             glfwDestroyWindow(m_MainWindow.get());
             glfwTerminate(); //TODO is this wise to do here?
+            m_bShouldWindowUpdate = false;
             return 1;
         }
 

@@ -39,22 +39,26 @@ namespace LabRat
         /*Constructor specicifying the rendering library we want to use, and hence the type of window and render manager that will be initialised*/
         Application(ERenderingLibrary RenderingLibrary);
 
-
+        /*TODO is this useful static?*/
         /*Get if we should keep updating the app via the main loop*/
-        static auto GetShouldUpdate() -> const bool;
+        auto GetShouldUpdate() -> const bool;
 
         /*Default destructor - needs to be public for unique ptr use*/
         ~Application();
 
+        /**
+        * FUNCTIONS
+        */
+
+        /*Initialise application and its components*/
+        virtual auto InitialiseApplication(const unsigned int WindowWidth, const unsigned int WindowHeight, const char* WindowName) -> const bool;
+
+        /*Our applications main update loop - all manager specific functionality will happen within this loop.*/
+        virtual auto UpdateApplication() -> const int;
+
     protected:
 
 
-        /**
-         * FUNCTIONS
-         */
-
-        /*Initialise application and its components*/
-        virtual auto InitialiseApplication() -> const bool;
 
 
         /**
@@ -68,7 +72,8 @@ namespace LabRat
          */
         std::unique_ptr<WindowManager_Base> m_WindowManager;
 
-        static bool m_bShouldUpdate;
+        /*boolean keeping track if our window should update loop or not - essentially, only false if we should close*/
+        bool m_bShouldUpdate;
     };
 
 

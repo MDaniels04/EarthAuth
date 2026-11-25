@@ -61,6 +61,9 @@ namespace LabRat
         /*Title of the window*/
         std::string m_MainWindowTitle;
 
+        /*Should we be updating the main window? Essentially, always true unless we are quitting the application*/
+        bool m_bShouldWindowUpdate;
+
     public:
 
         /*GETTERS AND SETTERS*/
@@ -71,6 +74,10 @@ namespace LabRat
 
         /*Window height*/
         inline auto GetWindowHeight() const -> unsigned int { return m_MainWindowHeight; }
+
+
+        /*Do window update*/
+        inline auto GetShouldWindowUpdate() const -> bool { return m_bShouldWindowUpdate;}
     };
 }
 #endif //EARTHAUTH_WINDOWMANAGER_BASE_H
