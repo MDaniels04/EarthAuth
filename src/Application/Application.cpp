@@ -69,7 +69,10 @@ namespace LabRat {
             Utils::Debug::PrintDebugText("Application window manager is null", Utils::EDebugMessageType::EDMT_Error);
         }
 
-        m_WindowManager->InitialiseMainWindow();
+        if (!m_WindowManager->InitialiseMainWindow())
+        {
+            Utils::Debug::PrintDebugText("Application window manager failed initialisation", Utils::EDebugMessageType::EDMT_Error);
+        }
 
 
         //At the end of initialise, if we get to this point it is all systems go, we mark the app as being able to update now

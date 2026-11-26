@@ -16,7 +16,9 @@ namespace LabRat {
     protected:
 
         /*Class specific management of compiling our shaders*/
-        virtual auto CompileShader() -> int = 0;
+        //virtual auto CompileShader() -> int = 0;
+        //TODO child variations will all require diff parameters, this does not have an implementation in its base for...
+
     };
 }
 #endif

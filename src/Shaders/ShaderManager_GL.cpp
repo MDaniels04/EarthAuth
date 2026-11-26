@@ -4,9 +4,9 @@
 namespace LabRat
 {
 
-    ShaderManager_GL::ShaderManager_GL()
+    ShaderManager_GL::ShaderManager_GL() :  m_ProgramNum(-1), m_ShaderNumMap({})
     {
-        m_ProgramNum = -1;
+
     }
 
     ShaderManager_GL::~ShaderManager_GL()
@@ -16,17 +16,17 @@ namespace LabRat
 
     auto ShaderManager_GL::InitShader(const char* ShaderFilepath, GLenum Type) -> bool
     {
-
+        //return true;
         const unsigned int Shader = glCreateShader(Type);
 
         //Read the code from the given filepath
-        const char* ShaderCode = ReadShaderFromFilepath(ShaderFilepath);
+        const std::string ShaderCode = ReadShaderFromFilepath(ShaderFilepath);
 
-        if (ShaderCode == "NULL")
+        //If shadercode doesnt overwrite its default, or is empty, this is an easy catch to return false on
+        if (ShaderCode == "NULL" || ShaderCode == "")
             return false;
 
-        /*Compile our shader and add the num reference to our map of shader maps */
-        m_ShaderNumMap[Type] = CompileShader(ShaderCode, Type);
+        m_ShaderNumMap.insert({Type, CompileShader(ShaderCode.c_str(), Type)});
 
         return true;
     }
@@ -44,16 +44,14 @@ namespace LabRat
 
         glLinkProgram(m_ProgramNum);
 
-
         if (!PrintProgramCompileStatus())
             return false;
         //IF we get to here all must be well, so now its time to use the program created
         glUseProgram(m_ProgramNum);
 
-
         //We can now delete shader objects, as they are no longer needed once linked.
-        for (const auto i : m_ShaderNumMap)
-        {
+         for (const auto i : m_ShaderNumMap)
+         {
             glDeleteShader(i.second);
             m_ShaderNumMap.erase(i.second); //Remove from map too as this number ref will no longer be vaild.
         }
@@ -61,24 +59,25 @@ namespace LabRat
         return true;
     }
 
-    auto  ShaderManager_GL::ReadShaderFromFilepath(const char* ShaderFilepath) -> const char*
+    auto  ShaderManager_GL::ReadShaderFromFilepath(const char* ShaderFilepath) -> std::string
     {
         /*This code is as it was in Crumb - works well enough for the feasibility demo*/
         std::ifstream ShaderFile(ShaderFilepath);
         if (!ShaderFile.is_open())
         {
-            std::cout << "ERROR SHADER FILE NOT FOUND: " << ShaderFilepath << "\n";
+            Utils::Debug::PrintDebugText("Shader file not found", Utils::EDMT_Error);
             return "NULL";
         }
 
         std::stringstream FileBuffer;
         FileBuffer << ShaderFile.rdbuf();
-        return FileBuffer.str().c_str(); //TODO ew
+        return FileBuffer.str(); //TODO ew
     }
 
     auto ShaderManager_GL::CompileShader(const char* ShaderCode, GLenum Type) -> int
     {
         const int ShaderNum = glCreateShader(Type);
+
         glShaderSource(ShaderNum, 1, &ShaderCode, nullptr);
 
         glCompileShader(ShaderNum);
@@ -100,7 +99,7 @@ namespace LabRat
 
         glGetProgramInfoLog(m_ProgramNum, 512, nullptr, Log);
 
-        Utils::Debug::PrintDebugText(Log, Utils::EDMT_Error);
+
 
         return Out;
     }
@@ -114,13 +113,25 @@ namespace LabRat
 
         glGetShaderiv(ShaderNum, GL_COMPILE_STATUS, &Out);
 
-        if (Out)
-            return Out;
-
         glGetShaderInfoLog(ShaderNum, 512, nullptr, Log);
 
-        Utils::Debug::PrintDebugText(Log, Utils::EDMT_Error);
+        //Utils::Debug::PrintDebugText(Log, Utils::EDMT_Error);
 
         return Out;
     }
+
+    auto ShaderManager_GL::SetShaderParams(glm::mat4 MatWorld, glm::mat4 MatView, glm::mat4 MatProj) -> void
+    {
+        //TODO can we assume these won't move and we can just do the getting locations once?
+        //As mentioned, this is based off Crumb untill we atleast get off of the ground, so we will just follow it to a probably
+        //unoptimised T untill we have a point to build off of and a way to actually debug the graphics
+        GLint MatWorldLoc = glGetUniformLocation(m_ProgramNum, "MatWorld");
+        GLint MatViewLoc = glGetUniformLocation(m_ProgramNum, "MatView");
+        GLint MatProjLoc = glGetUniformLocation(m_ProgramNum, "MatProj");
+
+        glUniformMatrix4fv(MatWorldLoc, 1, GL_FALSE, &MatWorld[0][0]);
+        glUniformMatrix4fv(MatViewLoc, 1, GL_FALSE, &MatView[0][0]);
+        glUniformMatrix4fv(MatProjLoc, 1, GL_FALSE, &MatProj[0][0]);
+    }
+
 }

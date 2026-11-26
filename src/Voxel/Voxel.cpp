@@ -1,3 +1,9 @@
-//
-// Created by Morga on 24/11/2026.
-//
+#include "EarthAuth/Voxel/Voxel.h"
+
+namespace LabRat
+{
+    Voxel::Voxel()
+    {
+        
+    }
+}

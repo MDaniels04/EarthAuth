@@ -8,6 +8,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/EarthAuth/") #IMPORTANT THIS IS THE ROOT SRC DIR
                 #Is project source dir ok to use here?
 
+#Define the directory for all our shaders so we can access them in the  build...
+#set(SHADERS "${PROJECT_SOURCE_DIR}/resources/shaders/")
+
 file(GLOB_RECURSE EarthAuthLibSources CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
 #Define the library that will be used in our application
@@ -27,6 +30,10 @@ target_link_libraries(EarthAuthLib PUBLIC
         glad
         glfw
         glm)
+
+
+#This is to allow us to use the graphical debugging tool, renderdoc
+target_include_directories(EarthAuthLib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/extern/renderdoc)
 
 #visual studio organising helper
 source_group(

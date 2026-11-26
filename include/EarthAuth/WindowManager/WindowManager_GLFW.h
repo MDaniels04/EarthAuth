@@ -9,7 +9,7 @@
 #pragma once
 
 #include <pch.h>
-
+#include <glm/glm.hpp>
 #include "WindowManager_Base.h"
 
 
@@ -18,8 +18,12 @@
 struct GLFWwindow;
 struct GLFWmonitor;
 
+
 /*Window manager part of earth auth namespace*/
 namespace LabRat {
+
+    /*Forward declaring render manager class*/
+    class RenderManager_GL;
 
 
     /*Forward decl of helper structs; deleters for GLFW objects for the unique ptr member vars*/
@@ -72,9 +76,71 @@ namespace LabRat {
         /*Error  callback function, bound to glfwSetErrorCallback*/
         static auto ErrorCallback(int Err, const char* Desc) -> void;
 
+        /*Key callback function, bound to glfwSetKeyCallback*/
+        static auto KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void;
+#
+        /*Callback function for mouse movement - i.e.: looking around WHEN HOLDING THE RIGHT MOUSE BUTTON*/
+        static auto MouseCallback(GLFWwindow* window, double XPos, double YPos) -> void;
+
         /*Main GLFW window ptr*/
         std::unique_ptr<GLFWwindow, GLFWwindow_DEL> m_MainWindow;
 
+        /*FOR NOW all GLFW windows will just have a GL renderer. Eventually (as in like august) I might make a vulkan renderer version*/
+        std::unique_ptr<RenderManager_GL> m_RenderManager;
+
+        /*Static double storing delta time - can be used anywhere as a result of this*/
+        static inline double m_DeltaTime = 0.f;
+
+        /*The time elapsed since the last frame in the window happened - used for DeltaTime calculations*/
+        double m_LastFrameTime;
+
+        /*EXTREMELY TEMP: WE ARE GOING TO HAVE CAMERA FUNCTIONALITY IN THE MAIN WINDOW FOR THE TIME BEING: THERE IS NO POINT IN IT BEING GOOD YET
+         * FD IS NOT ASSESSED TOO MUCH ON THE SOFTWARE ARCH AND WE JUST NEED STUFF OF THE GROUND
+         * TODO A CAMERA CLASS FOR THESE
+         */
+
+        /*How quick do we want to move? Temporarily here*/
+        static inline float m_MoveSpeed = 0.1f;
+
+        //TEMP This is public so we can access it from our renderer without having to messily parameterise it
+        /*Position we want to view the world from*/
+        static inline glm::vec3 m_ViewPosition = glm::vec3(-4.f,3.f,3.f);
+
+        /*Direction view is pointing in - i.e. the forward vector*/
+        static inline glm::vec3 m_ViewDirection = glm::vec3(1.f, 0.f, 0.f);
+
+        /*Where is "up" for the view?*/
+        static inline glm::vec3 m_ViewUp = glm::vec3(0.f, 1.f, 0.f);
+
+        /*Rotation (in radians) of the view*/
+        static inline glm::vec3 m_ViewRotation = glm::vec3(0.f,0.f,0.f);
+
+        static inline glm::vec3 m_ViewRight = glm::normalize(glm::cross(m_ViewDirection, glm::vec3(0,1,0)));
+
+        /*Are we holding the corresponding key that should convert mouse input to rotating the camera*/
+        static inline bool m_bMouseLookMode = false;
+
+        /*The Mouse position last update - used for calculating the mouse delta for rotating the camera */
+        static inline glm::vec2 m_LastMousePos = glm::vec2(0.f);
+
+        /*Speed with which camera should rotate*/
+        static inline float m_LookSpeed = 0.5f;
+
+    public:
+
+        /*GETTERS N SETTERS*/
+
+        /*View Position*/
+        static inline auto GetViewPosition() -> glm::vec3 { return m_ViewPosition;}
+
+        /*View direction*/
+        static inline auto GetViewDirection() -> glm::vec3 { return m_ViewDirection;}
+
+        /*View Up*/
+        static inline auto GetViewUp() -> glm::vec3 { return m_ViewUp; }
+
+        /*Delta Time*/
+        static inline auto GetDeltaTime() -> double { return m_DeltaTime;}
     };
 }
 #endif

@@ -10,8 +10,21 @@ add_library(AppLib ${AppHeaders} ${AppSources})
 
 target_include_directories(AppLib PUBLIC include/)
 target_link_libraries(AppLib EarthAuthLib)
+
+
 add_executable(EarthAuthDemo main.cpp ${AppSources} ${AppHeaders})
 
 
 target_compile_features(EarthAuthDemo PRIVATE cxx_std_20) #Enforce C++ std 20 here too...
 target_link_libraries(EarthAuthDemo PRIVATE  AppLib)
+
+
+#TEMP MORE SCALABLE WAY TO DO THIS
+add_custom_target(resources ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/resources
+        ${CMAKE_CURRENT_BINARY_DIR}/resources
+)
+
+
+add_dependencies(EarthAuthDemo resources)

@@ -23,6 +23,8 @@
 #include <sstream>
 #include <map>
 #include <unordered_map>
+#include <processenv.h>
+#include <bits/stdc++.h>
 
 
 #endif //EARTHAUTH_PCH_H

@@ -2,7 +2,7 @@
 
 namespace LabRat
 {
-    WindowManager_Base::WindowManager_Base() : m_MainWindowWidth(480), m_MainWindowHeight(480), m_MainWindowTitle("Window"), m_bShouldWindowUpdate(true)
+    WindowManager_Base::WindowManager_Base() : m_MainWindowWidth(480), m_MainWindowHeight(480), m_MainWindowTitle("Window"), m_bShouldWindowUpdate(false)
     {
 
 

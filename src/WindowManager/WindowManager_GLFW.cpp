@@ -4,19 +4,25 @@
 #include <glad/gl.h> //GLAD
 #include <GLFW/glfw3.h> //GLFW
 
+#include "EarthAuth/Renderer/RenderManager_GL.h"
+
+//Our render manager; OpenGL
+
 namespace LabRat
 {
-
     //Actual definition of the deleter - ensure we are using GLFWs window deletion func
     void GLFWwindow_DEL::operator() (GLFWwindow* win)
     {
         glfwDestroyWindow(win);
     }
 
-    WindowManager_GLFW::WindowManager_GLFW()
+    WindowManager_GLFW::WindowManager_GLFW() : m_RenderManager(nullptr)//, m_LastFrameTime(0.0f)
     {
         //Error callback setup
         glfwSetErrorCallback(ErrorCallback);
+        // m_MoveSpeed = 3.f;
+        // m_LastFrameTime = 0.0f;
+        // m_DeltaTime = 0.0f;
     }
 
     WindowManager_GLFW::~WindowManager_GLFW()
@@ -30,10 +36,14 @@ namespace LabRat
     {
         //Error callback setup
         glfwSetErrorCallback(ErrorCallback);
+        // m_MoveSpeed = 3.f;
+        // m_LastFrameTime = 0.0f;
+        // m_DeltaTime = 0.0f;
     }
 
     auto WindowManager_GLFW::InitialiseMainWindow() -> const bool
     {
+
         //Initialise glfw, returning if we are unable to do so
         if (!glfwInit())
         {
@@ -49,8 +59,6 @@ namespace LabRat
         //TODO this line helps add mac suppourt, but will tie us to OpenGL - this boiler plate needs to get off the ground, then I need to think abt how to get around hard coding OpenGL as opposed to Vulkan, e.g.
         //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-
-
         m_MainWindow = std::unique_ptr<GLFWwindow, GLFWwindow_DEL>(glfwCreateWindow(m_MainWindowWidth, m_MainWindowHeight, m_MainWindowTitle.c_str(), NULL, NULL));
 
         if (!(m_MainWindow.get()))
@@ -62,24 +70,63 @@ namespace LabRat
 
         std::cout << "m_MainWindow is not null, loading...\n";
 
+        //Setup our keycallback function
+        glfwSetKeyCallback(m_MainWindow.get(), KeyCallback);
+        glfwSetCursorPosCallback(m_MainWindow.get(), MouseCallback);
+
+
         glfwMakeContextCurrent(m_MainWindow.get());
-        const int GladVersion = gladLoadGL(glfwGetProcAddress);
-        if (GladVersion == 0)
+        //TODO If Debug precomp stuff could be set out here
+        //TODO our current utils cant handle the const char* return of this...
+        //std::printf("Renderer: %s\n", glGetString(GladVersion)); //So this one seems to be printing null...
+        //printf( "OpenGL version supported %s.\n", glGetString( GL_VERSION ) );
+
+        /*Now that OpenGL render context initialised, we can do this...*/
+
+        /*Create our render manager for this window*/
+        m_RenderManager = std::unique_ptr<RenderManager_GL>(new RenderManager_GL());
+
+        if (!m_RenderManager)
         {
-            Utils::Debug::PrintDebugText("Error: GLAD initialised incorrectly", Utils::EDMT_Error);
+            Utils::Debug::PrintDebugText("Render Manager not created", Utils::EDMT_Error);
             return false;
         }
 
-        //TODO If Debug precomp stuff could be set out here
-        //TODO our current utils cant handle the const char* return of this...
-        std::printf("Renderer: %s\n", glGetString(GladVersion)); //So this one seems to be printing null...
-        printf( "OpenGL version supported %s.\n", glGetString( GL_VERSION ) );
+        if (!m_RenderManager->InitialiseRenderer())
+        {
+            Utils::Debug::PrintDebugText("Render Manager not initialised properly", Utils::EDMT_Error);
+            return false;
+        }
+
+        //Setting a swap interval of 1 helps to prevent screen tearing
+        glfwSwapInterval(1);
+
+        //If we get to this point, we should be good for window updates to take place
+        m_bShouldWindowUpdate = true;
+
+        //Hotfix - we don't want to have lastframetime as 0 as that might make our first deltatime ludicrously high
+        m_LastFrameTime = glfwGetTime();
 
         return true;
     }
 
     auto WindowManager_GLFW::UpdateMainWindow() -> const unsigned int
     {
+
+        int Width, Height;
+
+        glfwGetFramebufferSize(m_MainWindow.get(), &Width, &Height);
+        const float r = Width / float(Height);
+
+        glViewport(0,0, Width, Height);
+
+        /*Delta time calculations*/
+        //TODO MOVE THIS OUT OF HERE!
+        const double CurrentFrameTime = glfwGetTime();
+        m_DeltaTime = CurrentFrameTime - m_LastFrameTime;
+        m_LastFrameTime -= CurrentFrameTime;
+
+
         if (glfwWindowShouldClose(m_MainWindow.get()))
         {
             glfwDestroyWindow(m_MainWindow.get());
@@ -88,17 +135,87 @@ namespace LabRat
             return 1;
         }
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        m_RenderManager->UpdateRenderer(m_DeltaTime);
+
         glfwSwapBuffers(m_MainWindow.get());
-        glfwPollEvents();
+        //TEMP - the most likely end product of this tool will only need to update when an input event is recieved.
+        glfwWaitEvents();
 
         return 0;
     }
 
-
     auto WindowManager_GLFW::ErrorCallback(int Err, const char* Desc)-> void
     {
         Utils::Debug::PrintDebugText("GLFW code: " + std::to_string(Err) + " description: " + Desc + "\n");
+    }
+
+    auto WindowManager_GLFW::KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void
+    {
+
+        //VERY rudimentary input and movement system
+         switch (key)
+         {
+             case GLFW_KEY_W:
+                 m_ViewPosition +=  m_ViewDirection * glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_S:
+                 m_ViewPosition += -m_ViewDirection * glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_A:
+                 m_ViewPosition += -m_ViewRight* glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_D:
+                 m_ViewPosition += m_ViewRight * glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_E:
+                 m_ViewPosition += m_ViewUp * glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_Q:
+                 m_ViewPosition += -m_ViewUp * glm::vec3(m_MoveSpeed);
+                 break;
+             case GLFW_KEY_F:
+                 if (action == GLFW_PRESS)
+                    m_bMouseLookMode = true;
+                 else if (action == GLFW_RELEASE)
+                     m_bMouseLookMode = false;
+                break;
+             default:
+                 break;
+         }
+
+
+    }
+
+    auto WindowManager_GLFW::MouseCallback(GLFWwindow* window, double XPos, double YPos) -> void
+    {
+        if (!m_bMouseLookMode)
+        {
+            //Update last mouse pos
+            m_LastMousePos = glm::vec2(XPos, YPos);
+            return;
+        }
+
+        //We want to rotate the camera round to face where the mouse cursor directs it...
+        glm::vec2 MouseDelta = glm::vec2(XPos, YPos) - m_LastMousePos;
+
+        //Update last mouse pos
+        m_LastMousePos = glm::vec2(XPos, YPos);
+
+        m_ViewRotation += glm::vec3(0.f, -MouseDelta.y * m_LookSpeed, MouseDelta.x * m_LookSpeed);
+
+        m_ViewRotation = glm::vec3(m_ViewRotation.x, std::clamp(m_ViewRotation.y, -85.f, 85.f), m_ViewRotation.z);
+
+        m_ViewDirection = glm::vec3(
+            cos(glm::radians(m_ViewRotation[2])) * cos(glm::radians(m_ViewRotation[1])),
+            sin(glm::radians(m_ViewRotation[1])),
+            sin(glm::radians(m_ViewRotation[2])) * cos(glm::radians(m_ViewRotation[1]))
+        );
+
+        m_ViewRight = glm::normalize(glm::cross(m_ViewDirection, glm::vec3(0.f,1.f,0.f)));
+
+        m_ViewUp = glm::normalize(glm::cross(m_ViewRight, m_ViewDirection));
     }
 
 }

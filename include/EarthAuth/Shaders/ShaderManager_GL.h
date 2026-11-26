@@ -8,9 +8,11 @@
 #pragma once
 
 #include <pch.h>
-#include "ShaderManager_Base.h"
 
 #include <glad/gl.h> //We cannot forward reference enum types, so this has been included here...
+#include <glm/glm.hpp>
+#include "ShaderManager_Base.h"
+
 
 namespace LabRat {
 
@@ -25,7 +27,6 @@ namespace LabRat {
         /*Default Destructor*/
         ~ShaderManager_GL();
 
-
         /*
          *Initialise a shader, attach it to gl then detach once its been compiled.
          *Extension of Crumb work as it can now be used for more than just Vert and Frag shaders
@@ -35,6 +36,9 @@ namespace LabRat {
 
         /*Link shaders we have initialised to the program and set it running...*/
         auto LinkShaderProgram() -> bool;
+
+        /*Sour shader parameters - for now, just the uniforms that dictate our matricies*/
+        auto SetShaderParams(glm::mat4 MatWorld, glm::mat4 MatView, glm::mat4 MatProj) -> void;
 
     private:
 
@@ -49,7 +53,7 @@ namespace LabRat {
 
 
         /*Read the contents of a shader from an input file path*/
-        auto  ReadShaderFromFilepath(const char* ShaderFilepath) -> const char*;
+        static auto  ReadShaderFromFilepath(const char* ShaderFilepath) -> std::string;
 
 
         /**
@@ -62,10 +66,23 @@ namespace LabRat {
          * Second - int - number ref of this shader for OpenGL
          */
         std::unordered_map<GLenum, int> m_ShaderNumMap;
+        //TODO we had issues getting this unordered map impl off the ground, so for now the implementation is that we have a seperate
+        //int for each shader
+
+
 
         /*Integer storing the number referencing the shader program*/
         int m_ProgramNum;
 
+
+    public:
+
+        /**
+         * GETTERS AND SETTERS
+         */
+
+        /*Program Num*/
+        inline auto GetProgramNum() const -> int { return m_ProgramNum;}
     };
 }
 
