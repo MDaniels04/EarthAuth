@@ -13,3 +13,6 @@
 [submodule "extern/cmake-imgui"]
 	path = extern/cmake-imgui
 	url = https://github.com/giladreich/cmake-imgui.git
+[submodule "extern/imgui"]
+	path = extern/imgui
+	url = https://github.com/ocornut/imgui.git
