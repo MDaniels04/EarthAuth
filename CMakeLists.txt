@@ -2,8 +2,6 @@
 
 cmake_minimum_required(VERSION 3.3...4.3) #Fun fact: CMAKE 3.3 came out in 2015 - and this is the version on the uni PCS :')
 
-
-
 project(EarthAuth
         VERSION 0.01
         DESCRIPTION "Honours Project"
@@ -28,6 +26,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     else ()
         message(WARNING "'Doxygen' was not found")
     endif()
+
+
+    #find_package(ImGui DIR ")
 
 #Endif main page
 endif()

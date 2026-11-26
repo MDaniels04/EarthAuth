@@ -20,6 +20,8 @@ namespace LabRat
     };
 
     class WindowManager_Base;
+
+    class UIManager;
     /*
      * An application handles all of the "engine" logic needed for an app.
      * It has a window manager, render manager [...TODO EXPAND]

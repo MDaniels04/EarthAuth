@@ -1,4 +1,5 @@
 
+
 cmake_minimum_required(VERSION 3.3...4.3)
 set(CMAKE_CXX_STANDARD 20)
 
@@ -19,3 +20,6 @@ add_subdirectory(glfw)
 add_subdirectory(glad)
 
 add_subdirectory(glm) #gl maths
+
+#Add the subdirectory for the cmake build of ImGUI
+#add_subdirectory(cmake-imgui-master)

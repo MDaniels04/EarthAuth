@@ -26,10 +26,16 @@ target_include_directories(EarthAuthLib PUBLIC ../include)
 #setup our pch to actually pc
 target_precompile_headers(EarthAuthLib PRIVATE "${PROJECT_SOURCE_DIR}/include/pch.h")
 
+list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
+set(ImGui_DIR "${ImGui_INSTALL_DIR}/lib/cmake")
+list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
+find_package(ImGui CONFIG REQUIRED)
 target_link_libraries(EarthAuthLib PUBLIC
         glad
         glfw
-        glm)
+        glm
+        ImGui)
+
 
 
 #This is to allow us to use the graphical debugging tool, renderdoc

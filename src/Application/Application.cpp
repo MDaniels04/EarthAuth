@@ -49,15 +49,19 @@ namespace LabRat {
     auto Application::UpdateApplication() -> const int
     {
 
-        if (m_WindowManager.get()->GetShouldWindowUpdate())
+        if (!m_WindowManager.get()->GetShouldWindowUpdate())
         {
-            m_WindowManager->UpdateMainWindow();
-            return 0; //Return 0 - all good, no problems
+            //Stop updating
+            m_bShouldUpdate = false;
+            return 1; //1 - ended (normal - will later expand this to denote errors)
         }
 
-        //Stop updating!
-        m_bShouldUpdate = false;
-        return 1; //1 - ended (normal - will later expand this to denote errors)
+        //Window update (& renderer)
+        m_WindowManager->UpdateMainWindow();
+
+        return 0; //Return 0 - all good, no problems
+
+
 
     }
 
@@ -67,12 +71,15 @@ namespace LabRat {
         if (!m_WindowManager.get())
         {
             Utils::Debug::PrintDebugText("Application window manager is null", Utils::EDebugMessageType::EDMT_Error);
+            return false;
         }
 
         if (!m_WindowManager->InitialiseMainWindow())
         {
             Utils::Debug::PrintDebugText("Application window manager failed initialisation", Utils::EDebugMessageType::EDMT_Error);
+            return false;
         }
+
 
 
         //At the end of initialise, if we get to this point it is all systems go, we mark the app as being able to update now

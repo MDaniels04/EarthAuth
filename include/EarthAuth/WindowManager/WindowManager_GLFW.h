@@ -24,7 +24,7 @@ namespace LabRat {
 
     /*Forward declaring render manager class*/
     class RenderManager_GL;
-
+    class UIManager;
 
     /*Forward decl of helper structs; deleters for GLFW objects for the unique ptr member vars*/
     /*Thank you to this stack overflow bit for the fix https://stackoverflow.com/questions/35793672/use-unique-ptr-with-glfwwindow*/
@@ -70,7 +70,6 @@ namespace LabRat {
          */
         virtual auto UpdateMainWindow() -> const unsigned int override;
 
-
     private:
 
         /*Error  callback function, bound to glfwSetErrorCallback*/
@@ -78,9 +77,18 @@ namespace LabRat {
 
         /*Key callback function, bound to glfwSetKeyCallback*/
         static auto KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) -> void;
-#
+
+        /*Update the position we are viewing from based on what inputs are being held*/
+        auto UpdateMovement(float DeltaTime) -> void;
+
+        static auto UpdateVectors() -> void;
+
         /*Callback function for mouse movement - i.e.: looking around WHEN HOLDING THE RIGHT MOUSE BUTTON*/
         static auto MouseCallback(GLFWwindow* window, double XPos, double YPos) -> void;
+
+
+        /*Tracks the state of our movement keys - a rudimentary fix to allow multiple inputs in the shadow of a proper input management system*/
+        static inline std::unordered_map<unsigned int, bool> m_KeyStateTracker = {};
 
         /*Main GLFW window ptr*/
         std::unique_ptr<GLFWwindow, GLFWwindow_DEL> m_MainWindow;
@@ -126,6 +134,12 @@ namespace LabRat {
         /*Speed with which camera should rotate*/
         static inline float m_LookSpeed = 0.5f;
 
+        /*Static var for gl version - used to be passsed  to our UI manager*/
+        static char* m_GLVersion;
+
+        /*PTR to UI manager - handled in our main step too...*/
+        std::unique_ptr<UIManager> m_UIManager;
+
     public:
 
         /*GETTERS N SETTERS*/
@@ -141,6 +155,10 @@ namespace LabRat {
 
         /*Delta Time*/
         static inline auto GetDeltaTime() -> double { return m_DeltaTime;}
+
+        /*TEMP main window getter to allow ImGUI to establish a context were using */
+        inline auto GetMainWindow() -> GLFWwindow* { return m_MainWindow.get();}
+
     };
 }
 #endif
