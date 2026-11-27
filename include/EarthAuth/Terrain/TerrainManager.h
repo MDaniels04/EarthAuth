@@ -6,8 +6,13 @@
 
 #include <pch.h>
 
+
+
 namespace LabRat
 {
+
+    class SparseVoxelOctree;
+
     /**
      *Our terrain manager is responsible for all the functionality we need for the actual terrain the tool needs.
      *
@@ -39,6 +44,11 @@ namespace LabRat
 
         /*Generate the initial perlin noise for the terrain based on input values, and return the output grid*/
         auto GeneratePerlinNoiseForTerrain(const unsigned int Seed, const unsigned __int8 NoiseOctaves) -> double**;
+
+
+        /*The data structure that we are representing our terrain in...*/
+        std::unique_ptr<SparseVoxelOctree> m_SVO;
+
 
     public:
 

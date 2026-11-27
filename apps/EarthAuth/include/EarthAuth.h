@@ -7,9 +7,13 @@
 
 #include "EarthAuth/Application/Application.h"
 
+#include "EarthAuth/Terrain/TerrainManager.h"
+
 #pragma once
 
 using namespace LabRat;
+
+
 
 /*Our extenstion of application for the tool - define the states we want to go between, and the actual functionality of each*/
 class EarthAuth : public Application
@@ -21,6 +25,9 @@ public:
 
 
     EarthAuth(ERenderingLibrary GivenLib = ERenderingLibrary::ERL_OpenGL);
+
+
+    std::unique_ptr<TerrainManager> m_TerrainManager;
 };
 
 

@@ -29,6 +29,8 @@ int main()
         return -1;
     }
 
+    EarthAuthApp->m_TerrainManager->GenerateTerrainFromParameters(-1, 6);
+
     while (EarthAuthApp.get()->GetShouldUpdate())
     {
         EarthAuthApp.get()->UpdateApplication();
