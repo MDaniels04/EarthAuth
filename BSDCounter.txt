@@ -1,15 +1,15 @@
 My laptop is on death's door. Here I keep a counter of the number of times it has Blue-Screen-Of-Deathed  while working on this project
 (with just the IDE open (cheers CLion))
 
-TIMES CRASHED: 1
+TIMES CRASHED: 2
 
 Furthermore, as it has happened a couple times here are the times just the IDE hard crashed, and the OS held on
 
-TIMES IDE CRASHED: 5
+TIMES IDE CRASHED: 6
 
 "A critical error has occured (you can keep using CLion though :p)" counter:
 
-6
+8
 
 Daily highscore for this is:  24/11/2026 with 4 appearances.
 

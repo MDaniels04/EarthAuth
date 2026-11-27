@@ -25,16 +25,18 @@ target_include_directories(EarthAuthLib PUBLIC ../include)
 
 #setup our pch to actually pc
 target_precompile_headers(EarthAuthLib PRIVATE "${PROJECT_SOURCE_DIR}/include/pch.h")
+#ImGUI stuff off for now
 
-list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
-set(ImGui_DIR "${ImGui_INSTALL_DIR}/lib/cmake")
-list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
-find_package(ImGui CONFIG REQUIRED)
+#list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
+#set(ImGui_DIR "${ImGui_INSTALL_DIR}/lib/cmake")
+#list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})
+#find_package(ImGui CONFIG REQUIRED)
 target_link_libraries(EarthAuthLib PUBLIC
+        PerlinNoiseLib
         glad
         glfw
         glm
-        ImGui)
+)
 
 
 

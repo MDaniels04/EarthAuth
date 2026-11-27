@@ -1,8 +1,8 @@
 #include "EarthAuth/UI/UIManager.h"
 
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+// #include "imgui.h"
+// #include "imgui_impl_glfw.h"
+// #include "imgui_impl_opengl3.h"
 
 
 
@@ -25,15 +25,15 @@ namespace LabRat {
 
     auto UIManager::InitUI(GLFWwindow* GivenWindow) -> const bool
     {
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO &io = ImGui::GetIO();
-
-        ImGui_ImplGlfw_InitForOpenGL(GivenWindow, true);
-        //TEMP can we get away without specifying a glsl version?
-        ImGui_ImplOpenGL3_Init();
-        //And dark mode, because of course
-        ImGui::StyleColorsDark();
+        // IMGUI_CHECKVERSION();
+        // ImGui::CreateContext();
+        // ImGuiIO &io = ImGui::GetIO();
+        //
+        // ImGui_ImplGlfw_InitForOpenGL(GivenWindow, true);
+        // //TEMP can we get away without specifying a glsl version?
+        // ImGui_ImplOpenGL3_Init();
+        // //And dark mode, because of course
+        // ImGui::StyleColorsDark();
 
         return true;
     }

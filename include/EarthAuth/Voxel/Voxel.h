@@ -11,7 +11,7 @@
 
 namespace LabRat
 {
-    /*The data structure for each "block" in the world - responsible for tracking position, and vertexs for rendering*/
+    /*Static class functionality giving us information about voxels - the lookup table for what each number in the SVO represents...*/
     class Voxel
     {
     public:
@@ -22,7 +22,8 @@ namespace LabRat
     private:
 
         /*Size of blocks (Length of one edge)*/
-        static __int8 BlockSize;
+        //static __int8 BlockSize;
+
 
 
     public:

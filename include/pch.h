@@ -18,13 +18,14 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <stdio.h>
+#include <cstdio>
 #include <fstream>
 #include <sstream>
 #include <map>
 #include <unordered_map>
 #include <processenv.h>
 #include <bits/stdc++.h>
+#include <cmath>
 
 
 #endif //EARTHAUTH_PCH_H

@@ -62,7 +62,7 @@ namespace LabRat
 
         m_MainWindow = std::unique_ptr<GLFWwindow, GLFWwindow_DEL>(glfwCreateWindow(m_MainWindowWidth, m_MainWindowHeight, m_MainWindowTitle.c_str(), NULL, NULL));
 
-        if (m_MainWindow.get())
+        if (!m_MainWindow)
         {
             std::cout << "m_MainWindow is null\n";
             glfwTerminate();
@@ -70,14 +70,14 @@ namespace LabRat
         }
 
 
-        m_UIManager = std::unique_ptr<UIManager>();
-        if (!m_UIManager)
-        {
-            Utils::Debug::PrintDebugText("UI Manager not set up", Utils::EDMT_Error);
-            return false;
-        }
+        // m_UIManager = std::unique_ptr<UIManager>();
+        // if (!m_UIManager)
+        // {
+        //     Utils::Debug::PrintDebugText("UI Manager not set up", Utils::EDMT_Error);
+        //     return false;
+        // }
 
-        m_UIManager->InitUI(m_MainWindow.get());
+        //m_UIManager->InitUI(m_MainWindow.get());
 
         std::cout << "m_MainWindow is not null, loading...\n";
 
@@ -165,7 +165,7 @@ namespace LabRat
         if (m_KeyStateTracker[GLFW_KEY_W])
             OutPos += m_ViewDirection * glm::vec3(m_MoveSpeed);
         if (m_KeyStateTracker[GLFW_KEY_S])
-            OutPos += -m_ViewDirection * glm::vec3(m_MoveSpeed);
+            OutPos += -m_ViewDirection.x * glm::vec3(m_MoveSpeed);
         if (m_KeyStateTracker[GLFW_KEY_A])
             OutPos += -m_ViewRight * glm::vec3(m_MoveSpeed);
         if (m_KeyStateTracker[GLFW_KEY_D])
